@@ -9,15 +9,20 @@ const connectButton = document.getElementById("connectButton")
 const fundButton = document.getElementById("fundButton")
 const contractBalance = document.getElementById("contractBalance")
 const withdrawButton = document.getElementById("withdrawButton")
+const ethAmount = document.getElementById("ethAmount")
+
 // Assign to the buttons our js function
 connectButton.onclick = connect
 fundButton.onclick = fund
 withdrawButton.onclick = withdraw
 
-console.log(ethers)
-
-// Update the visualizaton fo the contract balance
+// Get contract balance
 contractBalance.innerHTML = await getBalance()
+
+// And then update it every 3 sec
+setInterval(async () => {
+    contractBalance.innerHTML = await getBalance()
+}, 3 * 1000)
 
 // Connect to Metamask wallet
 async function connect() {
@@ -37,17 +42,20 @@ async function connect() {
 
 // Fund me
 async function fund() {
-    const sendValue = ethers.utils.parseEther(ethAmount.value)
-    console.log(`Funding with ${ethAmount.value}...`)
     if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(contractAddress, abi, signer)
         console.log(contract)
         try {
+            // Extract the ETH amount from the HTML page
+            const sendValue = ethers.utils.parseEther(ethAmount.value)
+            console.log(`Funding with ${ethAmount.value} ETH...`)
+            // Send the transaction
             const txResponse = await contract.fund({
                 value: sendValue,
             })
+            // Wait for the transaction to be mined
             await listenForTransactionToBeMined(txResponse, provider)
         } catch (error) {
             console.log(error)
