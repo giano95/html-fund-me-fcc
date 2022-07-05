@@ -9,7 +9,7 @@
 <br />
 <h1 align="center"><strong>Html Fund Me</strong></h1>
   <p align="center">
-    This is my rivisitation of the Html FundMe project develop by Patrick Collins for <a href="https://www.freecodecamp.org/">FreeCodeCamp</a>
+    This is my restyling of the Html FundMe project develop by Patrick Collins for <a href="https://www.freecodecamp.org/">FreeCodeCamp</a>
     <br />
     <br />
     <br />
